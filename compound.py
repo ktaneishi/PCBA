@@ -32,33 +32,6 @@ def download(outdir='data/compound'):
             print(e)
         time.sleep(10)
 
-def smiles(indir='data/compound', outdir='data/smiles', force=True):
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
-
-    for filename in sorted(os.listdir(indir)):
-        basename = filename.replace('.sdf.gz', '')
-        print(filename, basename)
-
-        if not force and os.path.exists(os.path.join(outdir, '%s.smi.gz' % basename)):
-            continue
-
-        start, end = map(int, basename.split('_')[1:3])
-
-        if start == 102125001:
-            continue
-
-        out = gzip.open(os.path.join(outdir, '%s.smi.gz' % basename), 'wb')
-        f = gzip.open(os.path.join(indir, filename))
-        for mol in Chem.ForwardSDMolSupplier(f):
-            if not mol:
-                continue
-            cid = int(mol.GetProp('PUBCHEM_COMPOUND_CID'))
-            line = '%d\t%s\n' % (cid, Chem.MolToSmiles(mol))
-            out.write(line.encode('ascii'))
-        f.close()
-        out.close()
-
 def ecfp(indir='data/compound', outdir='data/ecfp', radius=2, nBits=4096):
     if not os.path.exists(outdir):
         os.makedirs(outdir)
