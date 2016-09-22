@@ -89,6 +89,7 @@ def pivot(indir='pkl', outdir='pkl'):
 
 def subset(threshold=100):
     df = pd.read_pickle('pkl/result.pkl')
+    df = df[['PUBCHEM_AID', 'PUBCHEM_CID', 'PUBCHEM_ACTIVITY_OUTCOME']]
     print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique())
 
     df = df[df['PUBCHEM_CID'].notnull()]

@@ -32,7 +32,8 @@ def download(outdir='data/compound'):
             print(e)
         time.sleep(10)
 
-def ecfp(indir='data/compound', outdir='data/ecfp', radius=2, nBits=4096):
+def ecfp(indir='data/compound', outdir='data/ecfp', radius=2, nBits=1024):
+    outdir = '%s_%d_%d' % (outdir, radius*2, nBits)
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
@@ -64,11 +65,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--download', help='download compounds gzipped SDF', action='store_true')
     parser.add_argument('--ecfp', help='generate ECFP from compounds', action='store_true')
+    parser.add_argument('--radius', help='ECFP radius', action='store', type=int, default=2)
+    parser.add_argument('--nBits', help='ECFP number of bits', action='store', type=int, default=1024)
     args = parser.parse_args()
 
     if args.download:
         download()
     if args.ecfp:
-        ecfp()
+        ecfp(radius=args.radius, nBits=args.nBits)
     else:
         parser.print_help()
