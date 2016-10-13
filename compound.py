@@ -32,15 +32,15 @@ def download(outdir='data/compound'):
             print(e)
         time.sleep(10)
 
-def ecfp(indir='data/compound', outdir='data/ecfp', radius=2, nBits=1024):
+def ecfp(indir='data/compound', outdir='/data/ecfp', radius=2, nBits=1024):
     outdir = '%s_%d_%d' % (outdir, radius*2, nBits)
     if not os.path.exists(outdir):
         os.makedirs(outdir)
 
     for filename in sorted(os.listdir(indir)):
-        print(filename)
         if os.path.exists(os.path.join(outdir, filename.replace('sdf.gz','pkl'))):
             continue
+        print(filename)
 
         start, end = map(int, filename.replace('.sdf.gz','').split('_')[1:3])
 
