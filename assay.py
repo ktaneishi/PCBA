@@ -89,23 +89,30 @@ def pivot(indir='pkl', outdir='pkl'):
 
 def subset(threshold=100):
     df = pd.read_pickle('pkl/result.pkl')
-    df = df[['PUBCHEM_AID', 'PUBCHEM_CID', 'PUBCHEM_ACTIVITY_OUTCOME']]
-    print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique())
+    df = df[['PUBCHEM_AID', 'PUBCHEM_CID', 'PUBCHEM_SID', 'PUBCHEM_ACTIVITY_OUTCOME']]
+    print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique(), 'Unique substances', df['PUBCHEM_SID'].nunique())
 
+    '''
     df = df[df['PUBCHEM_CID'].notnull()]
     df['PUBCHEM_CID'] = df['PUBCHEM_CID'].astype(int)
     print('Compound ID is not null')
     print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique())
+    '''
+
+    cond = np.logical_or(df['PUBCHEM_CID'].notnull(), df['PUBCHEM_SID'].notnull())
+    df = df[cond]
+    print('Compound ID is not null OR Substance ID is not null')
+    print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique(), 'Unique substances', df['PUBCHEM_SID'].nunique())
 
     df = df[df['PUBCHEM_ACTIVITY_OUTCOME'].isin([OUTCOME['Active'],OUTCOME['Inactive']])]
     print('OUTCOME is Active or Inactive')
-    print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique())
+    print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique(), 'Unique substances', df['PUBCHEM_SID'].nunique())
 
     pivot = pd.read_pickle('pkl/pivot.pkl')
     cond = np.logical_and(pivot['Active'] >= threshold, pivot['Inactive'] >= threshold)
     df = df[df['PUBCHEM_AID'].isin(pivot[cond].index)]
     print('Including greater than equal %d results' % threshold)
-    print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique())
+    print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique(), 'Unique substances', df['PUBCHEM_SID'].nunique())
 
     df.to_pickle('pkl/subset.pkl')
 
