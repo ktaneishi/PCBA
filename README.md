@@ -13,8 +13,8 @@ Usage
 Plots
 -----
 
-![DepositorName](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/DepositorName.png)
-![Assay Type](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/Assay Type.png)
-![Assay Format](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/Assay Format.png)
-![Assay Detection Method](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/Assay Detection Method.png)
-![Assay Cell Type](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/Assay Cell Type.png)
+![DepositorName](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/DepositorName.png)
+![Assay Type](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay Type.png)
+![Assay Format](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay Format.png)
+![Assay Detection Method](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay Detection Method.png)
+![Assay Cell Type](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay Cell Type.png)
