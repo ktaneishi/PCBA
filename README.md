@@ -1,24 +1,20 @@
-Build tool for BioAssay dataset
-===============================
+Build tool for PubChem BioAssay (PCBA) dataset
+==============================================
 
-This is a build tool for BioAssay dataset.
-This only supports PubChem BioAssay source yet. 
+This is a build tool for PubChem BioAssay (PCBA) dataset.
 
 Usage
 -----
 
     bash$ make
-    python assay.py --download
-    python assay.py --build
 
-    python 
-
+    python assay.py --summary
 
 Plots
 -----
 
-![DepositorName](https://raw.githubusercontent.com/ktaneishi/pcba/master/fig/DepositorName.png)
-![Assay Type](https://raw.githubusercontent.com/ktaneishi/pcba/master/fig/Assay Type.png)
-![Assay Format](https://raw.githubusercontent.com/ktaneishi/pcba/master/fig/Assay Format.png)
-![Assay Detection Method](https://raw.githubusercontent.com/ktaneishi/pcba/master/fig/Assay Detection Method.png)
-![Assay Cell Type](https://raw.githubusercontent.com/ktaneishi/pcba/master/fig/Assay Cell Type.png)
+![DepositorName](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/DepositorName.png)
+![Assay Type](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/Assay Type.png)
+![Assay Format](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/Assay Format.png)
+![Assay Detection Method](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/Assay Detection Method.png)
+![Assay Cell Type](https://raw.githubusercontent.com/ktaneishi/PCBA/blob/master/figure/Assay Cell Type.png)
