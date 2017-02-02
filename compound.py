@@ -9,7 +9,7 @@ import os
 import sys
 import time
 
-def download(outdir='data/compound'):
+def download(outdir='/scratch/pcba/data/compound'):
     base = 'http://ftp.ncbi.nlm.nih.gov/pubchem/Compound/CURRENT-Full/SDF/%s'
 
     if not os.path.exists(outdir):
@@ -32,7 +32,7 @@ def download(outdir='data/compound'):
             print(e)
         time.sleep(10)
 
-def ecfp(indir='data/compound', outdir='/data/ecfp', radius=2, nBits=1024):
+def ecfp(indir='/scratch/pcba/data/compound', outdir='/scratch/pcba/data/ecfp', radius=2, nBits=1024):
     outdir = '%s_%d_%d' % (outdir, radius*2, nBits)
     if not os.path.exists(outdir):
         os.makedirs(outdir)
