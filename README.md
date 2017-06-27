@@ -14,7 +14,7 @@ Plots
 -----
 
 ![DepositorName](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/DepositorName.png)
-![Assay Type](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay-Type.png)
-![Assay Format](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay-Format.png)
-![Assay Detection Method](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay-Detection-Method.png)
-![Assay Cell Type](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay Cell-Type.png)
+![Assay Type](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay%20Type.png)
+![Assay Format](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay%20Format.png)
+![Assay Detection Method](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay%20Detection%20Method.png)
+![Assay Cell Type](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay%20Cell%20Type.png)
