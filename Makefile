@@ -2,7 +2,6 @@
 
 assay:
 	python assay.py --download
-	python assay.py --build
 	python assay.py --depositor
 	python assay.py --assay_type
 	python assay.py --assay_format

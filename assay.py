@@ -9,9 +9,7 @@ import re
 import os
 import sys
 
-COLUMNS = ['PUBCHEM_AID', 'PUBCHEM_RESULT_TAG', 'PUBCHEM_SID', 'PUBCHEM_CID',\
-        'PUBCHEM_ACTIVITY_OUTCOME', 'PUBCHEM_ACTIVITY_SCORE']
-PANEL_COLUMNS = ['PUBCHEM_AID', 'RESULT_PANEL_ID', 'PUBCHEM_RESULT_TAG', 'PUBCHEM_SID', 'PUBCHEM_CID',\
+COLUMNS = ['PUBCHEM_AID', 'RESULT_PANEL_ID', 'PUBCHEM_RESULT_TAG', 'PUBCHEM_SID', 'PUBCHEM_CID',\
         'PUBCHEM_ACTIVITY_OUTCOME', 'PUBCHEM_ACTIVITY_SCORE']
 EXTRAS = ['PUBCHEM_ACTIVITY_URL', 'PUBCHEM_ASSAYDATA_COMMENT']
 OUTCOME = {'Active':1, 'Inactive':0, 'Unspecified':3, 'Inconclusive':4, 'Probe':5}
@@ -19,7 +17,7 @@ OUTCOME = {'Active':1, 'Inactive':0, 'Unspecified':3, 'Inconclusive':4, 'Probe':
 filename2aid = lambda x: int(os.path.split(x)[-1].replace('.csv.gz', ''))
 
 def download(outdir='data/assay'):
-    annotation = 'ftp://ftp.ncbi.nlm.nih.gov/pubchem/Bioassay/Extras/Aid2Annotation.gz'
+    annotation = 'http://ftp.ncbi.nlm.nih.gov/pubchem/Bioassay/Extras/Aid2Annotation.gz'
     annotation = pd.read_csv(annotation, sep='\t', compression='gzip')
     annotation = pd.pivot_table(annotation, index='AID', columns='Title', values='Annotation', aggfunc=lambda x: ', '.join(x))
     annotation = annotation[annotation.notnull().sum().sort_values(ascending=False).index]
@@ -60,10 +58,10 @@ def panel(aid, data):
     scores = scores[scores.values == True].index
 
     for outcome, score in zip(outcomes, scores):
-        df = data.reset_index()[PANEL_COLUMNS[:-2] + [outcome,score]]
+        df = data.reset_index()[COLUMNS[:-2] + [outcome,score]]
         panel_id = data.ix['RESULT_PANEL_ID', outcome].replace('_OUTCOME', '')
         df['RESULT_PANEL_ID'] = panel_id
-        df.columns = PANEL_COLUMNS
+        df.columns = COLUMNS
         yield panel_id, df
 
 def build(aids, name, indir='data/assay', outdir='data/pkl', other=False):
@@ -129,7 +127,7 @@ def build_core(indir, outdir, column):
         cond = annotation[column] == row[column]
         aids = annotation.ix[cond, 'AID']
         filename = '%s.pkl' % row[column].replace('/','-')
-        if not os.path.exists(os.path.join(outdir, filename)):
+        if os.path.exists(os.path.join(outdir, filename)):
             build(aids, row[column], indir, outdir)
 
         if os.path.exists(os.path.join(outdir, filename)):
@@ -193,24 +191,11 @@ def summary():
         plt.legend(loc='lower right', fontsize=10)
         plt.tight_layout()
         plt.savefig('figure/%s.png' % category)
+        print(df)
 
     writer.close()
 
-def pivot(indir='data/pkl', outdir='data/pkl'):
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
-
-    df = pd.read_pickle(os.path.join(indir, 'result.pkl'))
-    df = pd.pivot_table(df, index='PUBCHEM_AID', columns='PUBCHEM_ACTIVITY_OUTCOME', values='PUBCHEM_RESULT_TAG', aggfunc='count')
-    outcome = {v:k for k,v in OUTCOME.items()}
-    df.columns = df.columns.map(lambda x: outcome[x])
-
-    df = df.fillna(0).astype(int)
-    df.to_pickle(os.path.join(outdir, 'pivot.pkl'))
-
-def subset():
-    df = pd.read_pickle('data/pkl/result.pkl')
-    df = df[['PUBCHEM_AID', 'PUBCHEM_CID', 'PUBCHEM_SID', 'PUBCHEM_ACTIVITY_OUTCOME']]
+def stats(df):
     print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique(), 'Unique substances', df['PUBCHEM_SID'].nunique())
 
     df = df[df['PUBCHEM_CID'].notnull()]
@@ -227,14 +212,9 @@ def subset():
     print('OUTCOME is Active or Inactive')
     print('Data potins', df.shape, 'Assays', df['PUBCHEM_AID'].nunique(), 'Unique compounds', df['PUBCHEM_CID'].nunique(), 'Unique substances', df['PUBCHEM_SID'].nunique())
 
-    df.to_pickle('data/pkl/subset.pkl')
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--download', help='download PCBA zip', action='store_true')
-    parser.add_argument('--build', help='build PCAB descriptions and results pickle', action='store_true')
-    parser.add_argument('--pivot', help='write pivot table to excel file', action='store_true')
-    parser.add_argument('--subset', help='build subset for analysis', action='store_true')
     parser.add_argument('--summary', help='show data summary', action='store_true')
 
     parser.add_argument('--depositor', help='build depositor dataset', action='store_true')
@@ -247,12 +227,6 @@ if __name__ == '__main__':
 
     if args.download:
         download()
-    elif args.build:
-        build() 
-    elif args.pivot:
-        pivot()
-    elif args.subset:
-        subset()
     elif args.summary:
         summary()
     elif args.depositor:
