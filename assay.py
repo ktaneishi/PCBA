@@ -9,6 +9,8 @@ import re
 import os
 import sys
 
+sns.set()
+
 COLUMNS = ['PUBCHEM_AID', 'RESULT_PANEL_ID', 'PUBCHEM_RESULT_TAG', 'PUBCHEM_SID', 'PUBCHEM_CID',\
         'PUBCHEM_ACTIVITY_OUTCOME', 'PUBCHEM_ACTIVITY_SCORE']
 EXTRAS = ['PUBCHEM_ACTIVITY_URL', 'PUBCHEM_ASSAYDATA_COMMENT']
@@ -19,8 +21,10 @@ filename2aid = lambda x: int(os.path.split(x)[-1].replace('.csv.gz', ''))
 def download(outdir='data/assay'):
     annotation = 'http://ftp.ncbi.nlm.nih.gov/pubchem/Bioassay/Extras/Aid2Annotation.gz'
     annotation = pd.read_csv(annotation, sep='\t', compression='gzip')
-    annotation = pd.pivot_table(annotation, index='AID', columns='Title', values='Annotation', aggfunc=lambda x: ', '.join(x))
+    print(annotation.shape, annotation['AID'].unique())
+    annotation = pd.pivot_table(annotation, index='AID', columns='Title', values='Annotation', aggfunc=lambda x: ', '.join(str(y) for y in sorted(set(x))))
     annotation = annotation[annotation.notnull().sum().sort_values(ascending=False).index]
+    print(annotation)
 
     depositor = 'http://ftp.ncbi.nlm.nih.gov/pubchem/Bioassay/Extras/Aid2DepositorName.gz'
     depositor = pd.read_csv(depositor, sep='\t', compression='gzip')
@@ -189,6 +193,7 @@ def summary():
         df.iloc[-top:].plot(kind='barh', x=category, y='Data Points', figsize=(10,8), 
                 fontsize=10, title='Data points by %s (Top %d)' % (category, top))
         plt.legend(loc='lower right', fontsize=10)
+        plt.grid(True)
         plt.tight_layout()
         plt.savefig('figure/%s.png' % category)
         print(df)
