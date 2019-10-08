@@ -1,13 +1,12 @@
-Build tool for PubChem BioAssay (PCBA) dataset
-==============================================
+Statistics tool for PubChem BioAssay
+====================================
 
-This is a build tool for PubChem BioAssay (PCBA) dataset.
+This is a statistics tools for PubChem BioAssay.
 
 Usage
 -----
 
-    bash$ make
-
+    $ make
     python assay.py --summary
 
 Plots
