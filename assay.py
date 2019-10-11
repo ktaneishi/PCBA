@@ -56,14 +56,14 @@ def download(outdir='data/assay'):
 
 def panel(aid, data):
     data = data.set_index('PUBCHEM_RESULT_TAG')
-    outcomes = data.ix['RESULT_PANEL_ID', :].str.endswith('_OUTCOME')
+    outcomes = data.loc['RESULT_PANEL_ID', :].str.endswith('_OUTCOME')
     outcomes = outcomes[outcomes.values == True].index
-    scores = data.ix['RESULT_PANEL_ID', :].str.endswith('_AC')
+    scores = data.loc['RESULT_PANEL_ID', :].str.endswith('_AC')
     scores = scores[scores.values == True].index
 
     for outcome, score in zip(outcomes, scores):
         df = data.reset_index()[COLUMNS[:-2] + [outcome,score]]
-        panel_id = data.ix['RESULT_PANEL_ID', outcome].replace('_OUTCOME', '')
+        panel_id = data.loc['RESULT_PANEL_ID', outcome].replace('_OUTCOME', '')
         df['RESULT_PANEL_ID'] = panel_id
         df.columns = COLUMNS
         yield panel_id, df
@@ -98,7 +98,7 @@ def build(aids, name, indir='data/assay', outdir='data/pkl', other=False):
                     print(name, aid, panel_id, df.shape)
             else:
                 cond = data['PUBCHEM_RESULT_TAG'].astype(str).str.startswith('RESULT')
-                data = data.ix[-cond, COLUMNS]
+                data = data.loc[-cond, COLUMNS]
                 data['PUBCHEM_RESULT_TAG'] = data['PUBCHEM_RESULT_TAG'].astype(int)
                 data['PUBCHEM_ACTIVITY_OUTCOME'] = data['PUBCHEM_ACTIVITY_OUTCOME'].map(lambda x: OUTCOME.get(x, x))
 
@@ -129,7 +129,7 @@ def build_core(indir, outdir, column):
 
     for i,row in df.iterrows():
         cond = annotation[column] == row[column]
-        aids = annotation.ix[cond, 'AID']
+        aids = annotation.loc[cond, 'AID']
         filename = '%s.pkl' % row[column].replace('/','-')
         if os.path.exists(os.path.join(outdir, filename)):
             build(aids, row[column], indir, outdir)
@@ -176,7 +176,7 @@ def summary():
 
                 if 'RESULT_PANEL_ID' in df.columns:
                     cond = df['RESULT_PANEL_ID'].notnull()
-                    panels = df.ix[cond, 'PUBCHEM_AID'].nunique()
+                    panels = df.loc[cond, 'PUBCHEM_AID'].nunique()
                 else:
                     panels = 0
 
