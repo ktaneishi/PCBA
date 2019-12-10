@@ -35,8 +35,7 @@ def download(outdir='data/assay'):
 
     base = 'http://ftp.ncbi.nlm.nih.gov/pubchem/Bioassay/CSV/Data/%s'
 
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
+    os.makedirs(outdir, exist_ok=True)
         
     for line in urllib.request.urlopen(base % '').readlines():
         filename = re.search('\d+_\d+.zip', str(line))
@@ -69,8 +68,7 @@ def panel(aid, data):
         yield panel_id, df
 
 def build(aids, name, indir='data/assay', outdir='data/pkl', other=False):
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
+    os.makedirs(outdir, exist_ok=True)
 
     result = []
 
@@ -154,8 +152,7 @@ def cell_type(indir='data/assay', outdir='data/pkl'):
     build_core(indir, outdir, 'Assay Cell Type')
 
 def summary():
-    if not os.path.exists('figure'):
-        os.makedirs('figure')
+    os.makedirs('figure', exist_ok=True)
 
     annotation = pd.read_pickle('data/pkl/annotation.pkl')
 

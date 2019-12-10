@@ -12,8 +12,7 @@ import time
 def download(outdir='data/compound'):
     base = 'http://ftp.ncbi.nlm.nih.gov/pubchem/Compound/CURRENT-Full/SDF/%s'
 
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
+    os.makedirs(outdir, exist_ok=True)
         
     for line in urllib.request.urlopen(base % '').readlines():
         filename = re.search('Compound_\d+_\d+.sdf.gz', str(line))
@@ -34,8 +33,7 @@ def download(outdir='data/compound'):
 
 def ecfp(indir='data/compound', outdir='data/ecfp', radius=2, nBits=1024):
     outdir = '%s_%d_%d' % (outdir, radius*2, nBits)
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
+    os.makedirs(outdir, exist_ok=True)
 
     for filename in sorted(os.listdir(indir)):
         if os.path.exists(os.path.join(outdir, filename.replace('sdf.gz','pkl'))):
