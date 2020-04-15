@@ -1,7 +1,5 @@
 # Statistics tool for PubChem BioAssay
 
-This is a statistics tools for PubChem BioAssay.
-
 ## Usage
 
 ```
