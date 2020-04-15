@@ -1,19 +1,18 @@
-Statistics tool for PubChem BioAssay
-====================================
+# Statistics tool for PubChem BioAssay
 
 This is a statistics tools for PubChem BioAssay.
 
-Usage
------
+## Usage
 
-    $ make
-    python assay.py --summary
+```
+$ make
+python assay.py --summary
+```
 
-Plots
------
+## Plots
 
-![DepositorName](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/DepositorName.png)
-![Assay Type](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay%20Type.png)
-![Assay Format](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay%20Format.png)
-![Assay Detection Method](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay%20Detection%20Method.png)
-![Assay Cell Type](https://raw.githubusercontent.com/ktaneishi/PCBA/master/figure/Assay%20Cell%20Type.png)
+<img src="figure/DepositorName.png" alt="Depositor Name" width="500" />
+<img src="figure/Assay%20Type.png" alt="Assay Type" width="500" />
+<img src="figure/Assay%20Format.png" alt="Assay Format" width="500" />
+<img src="figure/Assay%20Detection%20Method.png" alt="Assay Detection Method" width="500" />
+<img src="figure/Assay%20Cell%20Type.png" alt="Assay Cell Type" width="500" />
